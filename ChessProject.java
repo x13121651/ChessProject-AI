@@ -135,6 +135,18 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         return oponent;
     }
 
+     /*
+        This is a method to check if a piece is Black.
+    */
+    private Boolean checkBlackOponent(int newX, int newY) {
+        Boolean oponent;
+        Component c1 = chessBoard.findComponentAt(newX, newY);
+        JLabel awaitingPiece = (JLabel) c1;
+        String tmp1 = awaitingPiece.getIcon().toString();
+        oponent = ((tmp1.contains("White")));
+        return oponent;
+    }
+
     /*
         This method is called when we press the Mouse. So we need to find out what piece we have
         selected. We may also not have selected a piece!
@@ -226,9 +238,33 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for 
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
+
+//------------------------------------------------------(BlackKnight)--------------------------------------------------------------------------------------------
+
+        if (pieceName.equals("BlackKnight")) {
+
+            //If the Pawn is still in the boundary of the board
+            if (((startX >= 0) || (startX <= 7))) {
+                //If there is a piece on the Square AND its a diagonal move  Fix 2:  added condition that newY was greater than startY to ensure it cant take a piece going backwards.
+                if (((xMovement == 1) && (yMovement == 2)) || (xMovement == 2) && (yMovement == 1)) {
+                    //Check if the piece is Black
+                    if ((piecePresent(e.getX(), (e.getY())))) {
+                        if (checkBlackOponent(e.getX(), e.getY())) {
+                            validMove = true;
+                        } else {
+                            validMove = false;
+                        }
+                    } else if ((!piecePresent(e.getX(), (e.getY())))) {
+                        validMove = true;
+                    }
+                }
+            }
+        }
+
+
 //-------------------------------------------------(WhiteKnight)--------------------------------------------------------------------------------------------
 
-        if (pieceName.equals("WhiteKnight")) {
+      else if (pieceName.equals("WhiteKnight")) {
 
             //If the Pawn is still in the boundary of the board
             if (((startX >= 0) || (startX <= 7))) {
