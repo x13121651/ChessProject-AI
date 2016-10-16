@@ -135,9 +135,9 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         return oponent;
     }
 
-     /*
-        This is a method to check if a piece is Black.
-    */
+    /*
+       This is a method to check if a piece is Black.
+   */
     private Boolean checkBlackOponent(int newX, int newY) {
         Boolean oponent;
         Component c1 = chessBoard.findComponentAt(newX, newY);
@@ -239,6 +239,105 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
 
+        if (pieceName.equals("BlackPawn")) {
+            validMove = true;
+        }
+
+        //------------------------------------------------------(Rook)--------------------------------------------------------------------------------------------
+
+
+        else if (pieceName.contains("Rook")) {
+
+            Boolean inTheWay = false;
+
+            if ((landingX < 0) || (landingX > 7) || (landingY < 0) || (landingY > 7)) { // if the Rook ain't on the board - no dice!
+                validMove = false;
+            }
+
+            // The rook can only move along the X-axis OR the Y-axis, not both at the same time.
+            else {
+                if (((xMovement != 0) && (yMovement == 0)) || ((xMovement == 0) && (yMovement != 0))) {
+                    if (xMovement != 0) {
+
+                        if (xMovement > 0) {
+                            for (int i = 0; i < xMovement; i++) {
+                                if (piecePresent(initialX - (i * 75), e.getY())) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+                                }
+                            }
+                        } else {
+                            for (int i = 0; i < xMovement; i++) {
+                                if (piecePresent(initialX + (i * 75), e.getY())) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+                                }
+                            }
+                        }
+                    } else {
+
+                        if (yMovement > 0) {
+                            for (int i = 0; i < yMovement; i++) {
+                                if (piecePresent(e.getX(), initialY - (i * 75))) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+                                }
+                            }
+                        } else {
+                            for (int i = 0; i < yMovement; i++) {
+                                if (piecePresent(e.getX(), initialY + (i * 75))) {
+                                    inTheWay = true;
+                                    break;
+                                } else {
+                                    inTheWay = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if (inTheWay) {
+                        validMove = false;
+                    } else {
+                        if (piecePresent(e.getX(), (e.getY()))) {
+                            if (pieceName.contains("White")) {
+                                if (checkWhiteOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                } else {
+                                    validMove = false;
+                                }
+                            } else {
+                                if (checkBlackOponent(e.getX(), e.getY())) {
+                                    validMove = true;
+                                } else {
+                                    validMove = false;
+                                }
+                            }
+                        } else {
+                            validMove = true;
+                        }
+                    }
+                } else {
+                    validMove = false;
+                }
+            }
+        }
+
+
+
+
+        System.out.println("startX is:" + startX);
+        System.out.println("startY is:" + startY);
+        System.out.println("x movement is:" + xMovement);
+        System.out.println("y movement is:" + yMovement);
+        System.out.println("landingX is:" + landingX);
+        System.out.println("landingY is:" + landingY);
+        System.out.println("landingY is:" + landingY);
 //------------------------------------------------------(BlackKnight)--------------------------------------------------------------------------------------------
 
         if (pieceName.equals("BlackKnight")) {
@@ -264,7 +363,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
 //-------------------------------------------------(WhiteKnight)--------------------------------------------------------------------------------------------
 
-      else if (pieceName.equals("WhiteKnight")) {
+        else if (pieceName.equals("WhiteKnight")) {
 
             //If the Pawn is still in the boundary of the board
             if (((startX >= 0) || (startX <= 7))) {
@@ -286,23 +385,16 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 
 //------------------------------------------------------------------------------------------------------------------------
 
-        else
-        if (pieceName.equals("Rook")) {
+        else if (pieceName.equals("Rook")) {
 
             validMove = true;
-        }
-        else
-        if (pieceName.equals("Bishop")) {
+        } else if (pieceName.equals("Bishop")) {
 
             validMove = true;
-        }
-        else
-        if (pieceName.equals("King")) {
+        } else if (pieceName.equals("King")) {
 
             validMove = true;
-        }
-        else
-        if (pieceName.equals("Queen")) {
+        } else if (pieceName.equals("Queen")) {
 
             validMove = true;
         }
